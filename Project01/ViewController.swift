@@ -22,7 +22,10 @@ class ViewController: UITableViewController {
         
         for item in items {
             if item.hasPrefix("nssl") {
-                pictures.append(item)
+                // wywalenie rozszerzenia w nazwie pliku
+                let name = String(item.split(separator: ".").first!)
+                
+                pictures.append(name)
             }
         }
         
