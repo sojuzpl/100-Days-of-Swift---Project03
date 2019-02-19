@@ -28,10 +28,8 @@ class ViewController: UITableViewController {
                 pictures.append(item)
             }
         }
-        
         pictures.sort()
-        print(pictures)
-        
+//        print(pictures)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,10 +39,10 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)
+
         // wywalenie rozszerzenia w nazwie pliku
         let name = String(pictures[indexPath.row].split(separator: ".").first!)
         cell.textLabel?.text = name
-//        cell.textLabel?.text = pictures[indexPath.row]
         
         return cell
     }
@@ -55,15 +53,11 @@ class ViewController: UITableViewController {
             // znalezienie indexu w tabeli wybranego obrazka
             if let position = pictures.index(of: pictures[indexPath.row]) {
                 vc.selectedImageNumber = position
+                vc.selectedImage = pictures[indexPath.row]
+                vc.amountImages = pictures.count
             }
-            vc.selectedImage = pictures[indexPath.row]
-            vc.amountImages = pictures.count
-
             navigationController?.pushViewController(vc, animated: true)
             
         }
     }
-
-
 }
-
