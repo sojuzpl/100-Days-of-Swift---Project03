@@ -22,10 +22,7 @@ class ViewController: UITableViewController {
         
         for item in items {
             if item.hasPrefix("nssl") {
-                // wywalenie rozszerzenia w nazwie pliku
-                let name = String(item.split(separator: ".").first!)
-                
-                pictures.append(name)
+                pictures.append(item)
             }
         }
         
@@ -40,9 +37,20 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)
-        cell.textLabel?.text = pictures[indexPath.row]
+        // wywalenie rozszerzenia w nazwie pliku
+        let name = String(pictures[indexPath.row].split(separator: ".").first!)
+        cell.textLabel?.text = name
+//        cell.textLabel?.text = pictures[indexPath.row]
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            vc.selectedImage = pictures[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+            
+        }
     }
 
 
