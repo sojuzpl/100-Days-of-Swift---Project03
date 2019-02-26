@@ -22,8 +22,11 @@ class DetailViewController: UIViewController {
 //        print(selectedImageNumber!)
 //        print(amoutImages!)
         
-        title = "Image \(selectedImageNumber! + 1) of \(amountImages!)"
+        title = "Image \(selectedImageNumber! + 1) of \(amountImages!) - \(selectedImage!)"
         navigationItem.largeTitleDisplayMode = .never
+        
+        // navigation bar item
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
 
         // Do any additional setup after loading the view.
         if let imageToLoad = selectedImage {
@@ -31,7 +34,32 @@ class DetailViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.hidesBarsOnTap = true
+    }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.hidesBarsOnTap = false
+    }
+    
+    @objc func shareTapped() {
+        
+        guard let image = imageView.image?.jpegData(compressionQuality: 0.8) else {
+            print("No image found")
+            return
+        }
+        
+        let items: [Any] = ["This is just a test  with image", image]
+        let vc = UIActivityViewController(activityItems: items, applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
+        
+    }
+
+    
+    
     /*
     // MARK: - Navigation
 
